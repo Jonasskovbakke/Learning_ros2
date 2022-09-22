@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <link name="world"></link>
+
+    
+    <xacro:property name="robot_link_0_side" value="0.2" />
+    <xacro:property name="robot_link_0_length" value="0.3" />
+    <link name="robot_link_0">
+        <visual>
+            <origin xyz="0 0 ${robot_link_0_length / 2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${robot_link_0_side} ${robot_link_0_side} ${robot_link_0_length}" />
+            </geometry>
+            <material name="green" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${robot_link_0_length / 2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${robot_link_0_side} ${robot_link_0_side} ${robot_link_0_length}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.1" x="${robot_link_0_side}" y="${robot_link_0_side}" z="${robot_link_0_length}">
+            <origin xyz="0 0 ${robot_link_0_side/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    
+    <xacro:property name="robot_link_1_side" value="0.2" />
+    <xacro:property name="robot_link_1_length" value="0.4" />
+    <link name="robot_link_1">
+        <visual>
+            <origin xyz="0 0 ${robot_link_1_length / 2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${robot_link_1_side} ${robot_link_1_side} ${robot_link_1_length}" />
+            </geometry>
+            <material name="green" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${robot_link_1_length / 2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${robot_link_1_side} ${robot_link_1_side} ${robot_link_1_length}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.1" x="${robot_link_1_side}" y="${robot_link_1_side}" z="${robot_link_1_length}">
+            <origin xyz="0 0 ${robot_link_1_side/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+
+    <joint name="robot_link_0_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="robot_link_0"/>
+    </joint>
+
+    <joint name="robot_link_1_joint" type="revolute">
+        <origin xyz="${(robot_link_1_side/2)+(robot_link_0_side/2)} 0 ${robot_link_0_length}" rpy="0 0 0"/>
+        <parent link="robot_link_0"/>
+        <child link="robot_link_1"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="${-2*pi}" upper="${2*pi}" velocity="100" effort="100"/> 
+    </joint>
+
+</robot>
